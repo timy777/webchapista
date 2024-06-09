@@ -1,0 +1,255 @@
+<header class="etiqueta-scrolling row col-12 ">
+  <div class="col-1"></div>
+  <div class=" navbar-light  custom-bg-primary col-10 ">
+    <h3 class="text-white text-center">{{obtenerEtiqueta('titulo')}}</h3>
+  </div>
+  <div class="col-1"></div>
+  <div class="col-1" *ngIf="crud.estadoOtro()"></div>
+  <div class=" navbar-light  custom-bg-primary col-10" *ngIf="crud.estadoOtro()">
+    <h5 class="subTitulo">{{obtenerEtiqueta('crud.sub.header.permiso')}} {{dto.nombre}}</h5>
+  </div>
+  <div class="col-1" *ngIf="crud.estadoOtro()"></div>
+  <div class="col-1" *ngIf="crud.estadoOtro2()"></div>
+  <div class=" navbar-light  custom-bg-primary col-10 mx-auto" *ngIf="crud.estadoOtro2()">
+    <h5 class="subTitulo">{{obtenerEtiqueta('crud.sub.header.parametro')}} {{dto.nombre}}</h5>
+  </div>
+  <div class="col-1" *ngIf="crud.estadoOtro2()"></div>
+
+  <div class="sub_nav_bar_buttons custom-bg-primary container " *ngIf="crud.estadoView()">
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm"
+      *ngIf="etiquetas.size>0 && hasPermissionAccion('Crear')" label="{{obtenerEtiqueta('btn.nuevo')}}" icon="pi pi-file"
+      iconPos="left" (click)="nuevo()">
+    </button>
+
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm"
+      *ngIf="etiquetas.size>0 && hasPermissionAccion('Modificar')" label="{{obtenerEtiqueta('btn.editar')}}" icon="pi pi-pencil"
+      iconPos="left" (click)="editar()">
+    </button>
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm"
+      *ngIf="etiquetas.size>0 && hasPermissionAccion('Eliminar')" label="{{obtenerEtiqueta('btn.eliminar')}}" icon="pi pi-trash"
+      iconPos="left" (click)="eliminar()">
+    </button>
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm"
+      *ngIf="etiquetas.size>0 && hasPermissionAccion('Navegacion de permisos')" label="{{obtenerEtiqueta('btn.permiso')}}" icon="pi pi-eye"
+      iconPos="left" (click)="permisos(modalLogin)">
+    </button>
+    <button style="width: 130px !important" pButton class="btn btn-primary btn-sm"
+      *ngIf="etiquetas.size>0 && hasPermissionAccion('Navegacion de permisos de tipos de parametros')" label="{{obtenerEtiqueta('parametro')}}" icon="pi pi-table"
+      iconPos="left" (click)="permisosParametros(modalLogin)">
+    </button>
+    <button style="width: 125px !important; background-color: #34A835 !important; border: 1px solid #34A835 !important;"
+      pButton class="btn btn-primary btn-sm" label="{{obtenerEtiqueta('btn.excel')}}" icon="pi pi-file-excel"
+      iconPos="left" (click)="exportExcel()">
+    </button>
+  </div>
+  <div class="sub_nav_bar_buttons custom-bg-primary container" *ngIf="crud.estadoNuevo() || crud.estadoEditar()">
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm" type="submit"
+      *ngIf="crud.estadoNuevo()" label="{{obtenerEtiqueta('btn.guardar')}}" icon="pi pi-save" iconPos="left"
+      (click)="guardar()">
+    </button>
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm" type="submit"
+      *ngIf="crud.estadoEditar()" label="{{obtenerEtiqueta('btn.actualizar')}}" icon="pi pi-save" iconPos="left"
+      (click)="actualizar()">
+    </button>
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm" type="submit"
+      label="{{obtenerEtiqueta('btn.cancelar')}}" icon="pi pi-times" iconPos="left" (click)="cancelar()">
+    </button>
+  </div>
+  <div class=" sub_nav_bar_buttons custom-bg-primary container" *ngIf="crud.estadoOtro()">
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm" *ngIf="hasPermissionAccion('Modificación de permisos')"
+      label="{{obtenerEtiqueta('btn.guardar')}}" icon="pi pi-save" iconPos="left" (click)="guardarPermisos(modalLogin)">
+    </button>
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm"
+      label="{{obtenerEtiqueta('btn.cancelar')}}" icon="pi pi-times" iconPos="left" (click)="cancelarPermisos()">
+    </button>
+  </div>
+  <div class=" sub_nav_bar_buttons custom-bg-primary container" *ngIf="crud.estadoOtro2()">
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm" *ngIf="hasPermissionAccion('Modificación de permisos de tipos de parametros')"
+      label="{{obtenerEtiqueta('btn.guardar')}}" icon="pi pi-save" iconPos="left"
+      (click)="guardarPermisosParametros(modalLogin)">
+    </button>
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm"
+      label="{{obtenerEtiqueta('btn.cancelar')}}" icon="pi pi-times" iconPos="left"
+      (click)="cancelarPermisosParametros()">
+    </button>
+  </div>
+</header>
+<br>
+<div class="contenido" id="copiableContainer">
+  <div *ngIf="crud.estadoView()" class="col-12">
+    <p-table #dt [columns]="cols" [value]="page.content" [paginator]="true" [rows]="input.size" [lazy]="true"
+      [loading]="loading" (onLazyLoad)="loadLazy($event)" [totalRecords]="page.totalElements" selectionMode="single"
+      [(selection)]="dto" dataKey="id" [rowsPerPageOptions]="[10,25,50,100]"
+      styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines" [tableStyle]="{'min-width': '50rem'}">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th class="{{col.class}}" pSortableColumn="{{col.field}}" *ngFor="let col of columns" width={{col.width}}>
+            {{col.header}} <p-sortIcon field="{{col.field}}" *ngIf="col.field !='id'"></p-sortIcon>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let col of columns" [ngSwitch]="col.field">
+            <input style='width: 100%' *ngIf="col.field != 'permiso' && col.field !='id'" pInputText type="text"
+              (input)="dt.filter($event.target.value, col.field, 'contains')">
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+          <td *ngFor="let col of columns">
+            <!--<span class="ui-column-title">{{col.header}}</span>-->
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td *ngIf="columns != undefined" [attr.colspan]="columns.length">
+            {{obtenerEtiqueta('tbl.sin.registros')}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="container" *ngIf="crud.estadoOtro()">
+    <p-treeTable [value]="permisosTree" [columns]="colsTree" selectionMode="checkbox"
+      [(selection)]="permisosSeleccionadosTree">
+      <ng-template *ngIf="hasPermissionAccion('Modificación de permisos')" pTemplate="caption">
+        <!--
+        <div style="text-align:left">
+          <p-treeTableHeaderCheckbox></p-treeTableHeaderCheckbox>
+          <span style="margin-left: .25em; vertical-align: middle">{{obtenerEtiqueta('lbl.seleccionar.todos')}}</span>
+        </div>-->
+        <div class="flex">
+          <p-treeTableHeaderCheckbox></p-treeTableHeaderCheckbox>
+          <span class="ml-2">{{obtenerEtiqueta('lbl.seleccionar.todos')}}</span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            <p-treeTableCheckbox [disabled]="!hasPermissionAccion('Modificación de permisos')" [value]="rowNode">
+            </p-treeTableCheckbox>
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td *ngIf="columns != undefined" [attr.colspan]="columns.length">
+            {{obtenerEtiqueta('tbl.sin.registros')}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-treeTable>
+  </div>
+
+  <div *ngIf="crud.estadoOtro2()" class="col-12">
+    <p-table #dt [columns]="colsTiposParametros" [value]="rolTiposParametrosPermisos"
+      [rows]="rolTiposParametrosPermisos.length" [totalRecords]="rolTiposParametrosPermisos.length"
+      styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines" [tableStyle]="{'min-width': '50rem'}">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [width]="col.width">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          <td>
+            {{rowData.tipoParametroNombre}}
+          </td>
+          <td class="td_dropdown" *ngIf="hasPermissionAccion('Modificación de permisos de tipos de parametros')" pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-dropdown [options]="tipoPermisos" [(ngModel)]="rowData.tipoPermiso" [style]="{'width':'100%'}"
+                  appendTo="body">
+                </p-dropdown>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{obtenerTipoPermisoNombre(rowData.tipoPermiso)}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td *ngIf="!hasPermissionAccion('Modificación de permisos de tipos de parametros')">
+            {{obtenerTipoPermisoNombre(rowData.tipoPermiso)}}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td *ngIf="columns != undefined" [attr.colspan]="columns.length">
+            {{obtenerEtiqueta('tbl.sin.registros')}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </div>
+
+  <form [formGroup]="profileForm" *ngIf="crud.estadoNuevo() || crud.estadoEditar()">
+    <p-panel #pnl>
+      <p-header>
+        {{obtenerEtiqueta('crud.header')}}
+      </p-header>
+
+      <!--<div class="form-group row">
+        <div class="col-sm-4">
+          {{obtenerEtiqueta('crud.nombre')}}
+        </div>
+        <div class="col-sm-8">
+          <input type="text" pInputText formControlName="nombre" (keydown.space)="$event.preventDefault();" required
+            class="col-12" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-4">
+          {{obtenerEtiqueta('crud.descripcion')}}
+        </div>
+        <div class="col-sm-8">
+          <input type="text" pInputText formControlName="descripcion" class="col-12" />
+        </div>
+      </div>-->
+
+      <div class="form-row">
+        <div class="col-12 mb-3">
+          <label for="nombre">{{obtenerEtiqueta('crud.nombre')}}</label>
+          <input type="text" id="nombre" class="form-control" pInputText formControlName="nombre" (keydown.space)="$event.preventDefault();" required/>
+        </div>
+
+        <div class="col-12 mb-3">
+          <label for="descripcion">{{obtenerEtiqueta('crud.descripcion')}}</label>
+          <input type="text" id="descripcion" class="form-control" pInputText formControlName="descripcion" />
+        </div>
+          
+      </div>      
+
+    </p-panel>
+  </form>
+
+  <p-confirmDialog #cd header="{{obtenerEtiqueta('dialogo.confirmacion.titulo')}}" icon="pi pi-exclamation-triangle">
+    <p-footer>
+      <button type="button" pButton icon="pi pi-check" label="{{obtenerEtiqueta('dialogo.btn.confirmacion.si')}}"
+        (click)="cd.accept()" class="btn btn-primary btn-sm"></button>
+      <button type="button" pButton icon="pi pi-times" label="{{obtenerEtiqueta('dialogo.btn.confirmacion.no')}}"
+        (click)="cd.reject()" class="btn btn-primary btn-sm"></button>
+    </p-footer>
+  </p-confirmDialog>
+
+  <p-blockUI [blocked]="proceso">
+    <i style="position:absolute;top:25%;left:50%">
+      <p-progressSpinner *ngIf="proceso"></p-progressSpinner>
+    </i>
+  </p-blockUI>
+
+</div>

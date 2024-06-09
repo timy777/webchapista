@@ -1,0 +1,67 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/src/main/Codigo/.history
+/src/main/Codigo/.history/
+/src/main/Codigo/node/
+/src/main/Codigo/dist/
+/src/main/Codigo/tmp/
+/src/main/Codigo/out-tsc
+# Only exists if Bazel was run
+/src/main/Codigo/bazel-out
+
+# dependencies
+/src/main/Codigo/node_modules
+
+# profiling files
+/src/main/Codigo/chrome-profiler-events*.json
+/src/main/Codigo/speed-measure-plugin*.json
+
+# IDEs and editors
+/src/main/Codigo/.idea
+/src/main/Codigo.project
+/src/main/Codigo.classpath
+/src/main/Codigo.c9/
+/src/main/Codigo/*.launch
+/src/main/Codigo/.settings/
+/src/main/Codigo/*.sublime-workspace
+
+# IDE - VSCode
+./.vscode/
+./.vs/
+/src/main/Codigo/.vscode/*
+/src/main/Codigo/!.vscode/settings.json
+/src/main/Codigo/!.vscode/tasks.json
+/src/main/Codigo/!.vscode/launch.json
+/src/main/Codigo/!.vscode/extensions.json
+/src/main/Codigo/.history/*
+
+# misc
+/src/main/Codigo/.sass-cache
+/src/main/Codigo/connect.lock
+/src/main/Codigo/coverage
+/src/main/Codigo/libpeerconnection.log
+/src/main/Codigo/npm-debug.log
+/src/main/Codigo/yarn-error.log
+/src/main/Codigo/testem.log
+/src/main/Codigo/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+#mvn java
+/src/main/Codigo/.history
+/src/main/Codigo/.history/src
+/ModuloBaseFrondEnd/target/
+/ModuloBaseFrondEnd/.history/*.*
+/ModuloBaseFrondEnd/.history
+/target/
+/.history/*.*
+/.history/
+/.history
+/.history/src/main/Codigo/*.*
+/.history/src/
+/src/main/Codigo/node_modules/.cache
+/node_modules/js-base64
+/node_modules/js-base64/1x1.png

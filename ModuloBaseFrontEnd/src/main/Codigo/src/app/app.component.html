@@ -1,0 +1,29 @@
+<!-- app component-->
+
+<div style="height: 100%;" class="main_global" *ngIf="estaAutenticado()" (click)="parar()">
+  <app-header></app-header>
+  <!--<app-sidebar (collapsedEvent)="receiveCollapsed($event)"></app-sidebar>-->
+  <app-sidebar (collapsedEvent)="receiveCollapsed($event)"></app-sidebar>
+  <section class="main-container fondo " [ngClass]="{collapsed: collapedSideBar}">
+
+
+    <div *ngIf="esDashboard(); else elseTemplate">
+      <dashboard-component></dashboard-component>
+    </div>
+    <ng-template #elseTemplate>
+      <router-outlet></router-outlet>
+    </ng-template>
+    <!--<router-outlet *ngIf="!esDashboard()"></router-outlet>
+    <div *ngIf="esDashboard()">
+      <dashboard-component></dashboard-component>
+    </div> -->
+  </section>
+  <!-- FOOTER  -->
+  <footer class="main-container page-footer font-small blue" [ngClass]="{collapsed: collapedSideBar}">
+    <div class="footer-copyright text-center">{{piePagina}}</div>
+  </footer>
+</div>
+<div style="height: 100%;" *ngIf="!estaAutenticado()">
+  <login-component></login-component>
+</div>
+<p-toast></p-toast>

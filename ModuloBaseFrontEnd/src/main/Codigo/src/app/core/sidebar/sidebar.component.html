@@ -1,0 +1,44 @@
+<!--<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}" >-->
+  <!--<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}" (mouseleave)="ocultarSideBar()">ESTE ES EL ANTIGUO, (mouseenter) ACTIVAR EVENTO EN TS LINEA 93 -->
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}" (dblclick)="ocultarSideBar()" (click)="mostrarSideBar($event)">
+  <div class="list-group">
+    <div class="nested-menu">
+      <a [routerLink]="redireccionarDashboard()" [routerLinkActive]="['router-link-active']"
+        (mouseenter)="mostrarSideBar($event)" class="list-group-item">
+        <i class="fa fa-fw fa fa-home"></i>&nbsp;
+        <span>{{ 'Dashboard' }}</span>
+      </a>
+      <div *ngFor="let modulo of modulos">
+        <a class="list-group-item" (click)="addExpandClass(('pages_' + modulo.id))"
+          >
+        <!--<a class="list-group-item" (click)="addExpandClass(('pages_' + modulo.id))"
+          (mouseenter)="mostrarSideBar($event); addExpandClass(('pages_' + modulo.id))">-->
+          <i class="{{modulo.icono}}"></i>&nbsp;
+          <span>{{ modulo.nombre  }}</span>
+        </a>
+        <li *ngIf="modulo.formularios.length>0" class="nested" [class.expand]="showMenu === ('pages_' + modulo.id)">
+          <ul class="submenu">
+            <li *ngFor="let formulario of modulo.formularios">
+              <a [routerLink]="[(obtenerContexto() + modulo.url + formulario.url)]"
+                [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="{{formulario.icono}}"></i>&nbsp;
+                <span>{{ formulario.nombre }}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+    <div class="header-fields">
+      <div class="nested-menu">
+        <a class="list-group-item" (click)="onLoggedout()">
+          <span><i class="fa fa-fw fa-power-off"></i>&nbsp; {{ 'Salir' }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+    <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>&nbsp;
+    <span>{{ 'Ocultar con 2 clicks en el menú' }}</span>
+  </div>
+</nav>

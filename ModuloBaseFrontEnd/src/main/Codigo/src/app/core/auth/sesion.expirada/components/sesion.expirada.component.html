@@ -1,0 +1,7 @@
+<div class="text-center img-fluid login_general">
+    <p-dialog class="dialogo_defecto" [modal]="true" (onHide)="onLoggedout()"  header="Sesion expirada" [(visible)]="visible">
+      <div class="row row_dialogo" >
+        <h5 style="color: red;">Su session acaba de expirar por token expirado, vuelva a iniciar sesion.</h5>        
+      </div>
+    </p-dialog> 
+</div>

@@ -1,0 +1,456 @@
+:root {
+  --layer-0: #ffffff;
+  --layer-1: #f4f4f4;
+  --layer-2: #eaeaea;
+  --text-color: #333333;
+  --text-color-secondary: #848484;
+  --primary-color: #007ad9;
+  --primary-color-text: #ffffff;
+}
+
+/**
+template colors
+*/
+$top-general: 66px;
+$left-general: 330px;
+$witdh-menu-general: 330px;
+$margin-left-general: -330px;
+$margin-bottom-general: 48px;
+$color-primario: #0e005c;
+$color-secundario: rgb(0, 31, 117);
+$color-terciario: #46b3e6;
+$color-cuaternario: white;
+$color-quintenario: #dff6f0;
+$color-sub-navbar: #0003a04f; //var(--primary-color); //#0002a0;
+$color-sub-navbar-butons: #0003a04f; //#0002a0;
+
+//$color-formulario-header: #007ad9;
+$color-formulario-header: #007bff; // OAC
+$color-formulario-sub-header: #1f96f4;
+$color-formulario-borde: #afddff;
+$color-formulario-header-texto: white;
+
+//$color-tabla-header: #007ad9;
+$color-tabla-header: #007bff; // OAC
+$color-tabla-borde: #afddff;
+$color-tabla-header-texto: white;
+$color-tabla-select-row: #3f9cff;
+$color-tabla-row: white;
+$color-tabla-row-2: #dbedfa;
+$color-tabla-hover-row: #93cef9;
+$color-tabla-hover-text: white;
+$color-tabla-hover-disable-text: #196699;
+
+$font-family: "Source Sans Pro",
+  sans-serif;
+
+span {
+  font-size: 90% !important;
+}
+
+.ui-dropdown-label .ui-inputtext .ui-corner-all {
+  font-size: 90% !important;
+}
+
+.p-inputtext {
+  // OAC pa input
+  margin: 0 !important;
+  outline: medium none !important;
+  padding: 0.15em !important; //0.25
+  font-size: medium;
+}
+
+body {
+  font-size: 90% !important;
+}
+
+.ui-widget,
+.ui-widget-header,
+.ui-widget-content,
+.ui-widget-header .ui-widget-header,
+.ui-widget-content .ui-widget-content,
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+  font-size: 90% !important;
+}
+
+td {
+  //  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+.input_only_read {
+  background: $color-quintenario !important;
+}
+
+.p-button {
+  margin: 3px !important;
+}
+
+.titulo {
+  margin-top: 12px !important;
+  margin-bottom: 12px !important;
+  color: $color-cuaternario;
+  //  font-family: $font-family;
+
+  font-size: 1.625rem;
+  font-weight: 500;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.subTitulo {
+  color: $color-cuaternario;
+  //font-family: $font-family;
+  margin-bottom: -0.5rem !important;
+}
+
+/**
+sub nav bar en el template
+*/
+.subNavBar {
+  display: inline;
+  background-color: $color-sub-navbar;
+  position: fixed;
+  padding-bottom: 0px;
+  top: 55px;
+  right: 0;
+  margin-left: 270px; // 330px
+  left: 0px;
+  z-index: 1030;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.sub_nav_bar_collapsed {
+  margin-left: 60px;
+}
+
+.custom-bg-primary {
+  background-color: rgba(0, 31, 117, 0.5);
+  /* Añade el valor alfa (0.5) para la transparencia */
+  border-radius: 20px;
+  /* Ajusta el valor según el redondeo deseado */
+  padding: 10px;
+  /* Añade relleno si deseas espaciar el contenido del fondo */
+  color: white;
+  /* Color del texto en el fondo */
+}
+
+/* Estilo personalizado para la etiqueta que seguirá el scrolling */
+.etiqueta-scrolling {
+  position: relative; //fixed para que  se mueve
+  /* Ajusta la posición horizontal según tus necesidades */
+  padding: 2px;
+  /* Asegura que esté por encima del contenido principal */
+}
+
+@media (max-width: 768px) {
+
+  /* Ajusta el valor según tu diseño responsivo */
+  .etiqueta-scrolling {
+    position: relative;
+  }
+}
+
+/**
+botones del sub nav bar
+*/
+.sub_nav_bar_buttons {
+  background-color: $color-sub-navbar-butons !important;
+  //padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: block !important;
+  //left: 10px;
+  position: relative;
+}
+
+.contenido {
+  margin-top: 30px;
+  display: flex;
+  margin-bottom: 51px;
+  // para que la imagen de fondo
+  height: 100%;
+  width: 100%;
+  min-height: 600px;
+}
+
+.ui-table,
+.ui-table-responsive,
+.ui-table-hoverable-rows,
+.ui-treetable,
+.ui-panel {
+  box-shadow: 0 2px 0 rgba(0, 119, 255, 0.63), 0 4px 8px rgba(0, 119, 255, 0.6), 0 10px 10px rgba(0, 120, 255, 0.57), 0 7px 70px rgba(0, 119, 255, 0.56);
+}
+
+/**
+dialogo
+*/
+.dialogo_defecto {
+  z-index: 1040 !important;
+}
+
+.row_dialogo {
+  width: 400px;
+  height: 150px;
+  padding: 15px;
+  color: black;
+  margin: auto;
+}
+
+/**
+toast mensajes
+*/
+.ui-toast-top-right {
+  margin-top: 170px;
+
+}
+
+/**
+tablas paginador y combox de cantidad de registros
+*/
+.ui-paginator {
+  .ui-dropdown {
+    //  float: left;
+  }
+
+  .ui-paginator-current {
+    //  float: right;
+  }
+}
+
+/**
+dialogo de confirmacion
+*/
+/*.ui-dialog-titlebar {
+  background-color: $color-formulario-header !important;
+  color: $color-formulario-header-texto !important;
+}
+
+body .ui-dialog .ui-dialog-content {
+  color: red !important;
+}
+
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon {
+  color: white !important;
+}*/
+
+.p-dialog .p-dialog-header {
+  // OAC
+  background-color: $color-formulario-header !important;
+  color: $color-formulario-header-texto !important;
+  padding: 0 0.3rem 0 0.5rem !important;
+}
+
+.p-dialog .p-dialog-content {
+  // OAC
+  padding: 0.5rem 1.5rem 0.5rem 1.5rem !important;
+  color: red !important;
+}
+
+.p-dialog .p-dialog-footer {
+  // OAC
+  border-style: 5px black !important;
+  padding: 0.3rem 0.5rem 0.3rem 0.5rem !important;
+}
+
+
+/**
+formularios
+*/
+/*body .ui-panel .ui-panel-titlebar {
+  background-color: $color-formulario-header !important;
+  border-color: $color-formulario-borde !important;
+  color: $color-formulario-header-texto !important;
+}*/
+
+.p-panel .p-panel-header {
+  // OAC
+  background-color: $color-formulario-header !important;
+  border-color: $color-formulario-borde !important;
+  color: $color-formulario-header-texto !important;
+  padding: 0.5rem !important;
+  font-weight: bold !important;
+}
+
+.p-panel .p-panel-content {
+  padding: 1rem;
+  //font-size: small;
+}
+
+.p-datatable {
+  // OAC
+  line-height: 1rem;
+  //font-size: small;
+}
+
+/**
+header de una tabla
+*/
+/*body .ui-table .ui-table-thead>tr>th {
+  background-color: $color-tabla-header !important;
+  border-color: $color-tabla-borde !important;
+  color: $color-tabla-header-texto !important;
+}*/
+.p-datatable .p-datatable-thead>tr>th {
+  // OAC
+  background-color: $color-tabla-header !important;
+  border-color: $color-tabla-borde !important;
+  color: $color-tabla-header-texto !important;
+}
+
+// borde de una tabla
+/*body .ui-table .ui-table-tbody>tr>td {
+  border-color: $color-tabla-borde !important;
+}*/
+
+.p-datatable .p-datatable-tbody>tr>td {
+  // OAC
+  border-color: $color-tabla-borde !important;
+}
+
+/**
+texto de sort de una tabla
+*/
+/*.ui-sortable-column-icon {
+  color: $color-tabla-header-texto !important;
+}*/
+.p-sortable-column-icon {
+  // OAC
+  color: $color-tabla-header-texto !important;
+}
+
+/**
+icono de sort de una tabla
+*/
+/*.ui-sortable-column-icon:hover {
+  color: $color-tabla-select-row !important;
+}*/
+/*.p-sortable-column-icon:hover{  // OAC
+  color: $color-tabla-select-row !important;  
+}*/
+
+
+/**
+registros seleccionados de una tabla
+*/
+/*body .ui-table .ui-table-tbody>tr:nth-child(2n).ui-state-highlight {
+  background-color: $color-tabla-select-row !important;
+}*/
+
+/*body .ui-table .ui-table-tbody>tr.ui-state-highlight {
+  background-color: $color-tabla-select-row !important;
+}*/
+.p-datatable .p-datatable-tbody>tr.p-highlight {
+  background-color: $color-tabla-select-row !important;
+  color: white !important;
+}
+
+
+/**
+tabla - colores de la tabla al visualizarse 
+*/
+/*body .ui-table .ui-table-tbody>tr:nth-child(2n) {
+  background-color: $color-tabla-row-2;
+}*/
+.p-datatable-tbody>tr:nth-child(2n) {
+  // OAC
+  background-color: $color-tabla-row-2 !important;
+}
+
+/*body .ui-table .ui-table-tbody>tr {
+  background-color: $color-tabla-row;
+}*/
+.p-datatable-tbody>tr {
+  // OAC
+  background-color: $color-tabla-row !important;
+}
+
+/**
+tabla - color de hover cuando se pasa por las filas
+*/
+/*body .ui-table .ui-table-tbody>tr:hover {
+  background-color: $color-tabla-hover-row !important;
+}*/
+.p-datatable-tbody>tr:hover {
+  // OAC
+  background-color: $color-tabla-hover-row !important;
+}
+
+/**
+tabla paginator hover 
+*/
+.p-paginator {
+  // OAC
+  padding: 0;
+}
+
+body .ui-paginator .ui-paginator-pages .ui-paginator-page:not(.ui-state-active):hover {
+  background-color: $color-tabla-hover-row !important;
+  color: $color-tabla-hover-text !important;
+}
+
+body .ui-paginator .ui-paginator-first:not(.ui-state-disabled):not(.ui-state-active):hover,
+body .ui-paginator .ui-paginator-prev:not(.ui-state-disabled):not(.ui-state-active):hover,
+body .ui-paginator .ui-paginator-next:not(.ui-state-disabled):not(.ui-state-active):hover,
+body .ui-paginator .ui-paginator-last:not(.ui-state-disabled):not(.ui-state-active):hover {
+  background-color: $color-tabla-hover-row !important;
+  color: $color-tabla-hover-text !important;
+}
+
+a:not([href]):hover {
+  color: $color-tabla-hover-disable-text !important;
+}
+
+body .ui-treetable .ui-treetable-caption,
+body .ui-treetable .ui-treetable-summary {
+  background-color: $color-formulario-header !important;
+  border-color: $color-formulario-borde !important;
+  color: $color-formulario-header-texto !important;
+}
+
+body .ui-treetable .ui-treetable-thead>tr>th {
+  background-color: $color-formulario-sub-header !important;
+  border-color: $color-formulario-borde !important;
+  color: $color-formulario-header-texto !important;
+}
+
+body .ui-inputtext:enabled:focus:not(.ui-state-error) {
+  box-shadow: 0 0 0 0.2em #8dcdff !important;
+  border-color: $color-formulario-header !important;
+}
+
+body .ui-inputtext:enabled:hover:not(.ui-state-error) {
+  border-color: #0800ff !important;
+}
+
+.ui-blockui {
+  z-index: 2000 !important;
+}
+
+/**
+CLASS DE LIST BOX 
+*/
+.listbox_caso_front_office_investigadores {
+  min-width: 35em !important;
+}
+
+.p-paginator-right-content {
+  margin-left: 0px !important;
+
+}
+
+#copiableContainer {
+  outline: none;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

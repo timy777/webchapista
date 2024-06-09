@@ -1,0 +1,222 @@
+<header class="etiqueta-scrolling row col-12 ">
+  <div class="col-1"></div>
+  <div class=" navbar-light  custom-bg-primary col-10">
+    <h3 class="text-white text-center">{{obtenerEtiqueta('titulo')}}</h3>
+  </div>
+  <div class="col-1"></div>
+  <div class="sub_nav_bar_buttons container" *ngIf="crud.estadoView()">
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm"
+      label="{{obtenerEtiqueta('btn.detalles')}}" icon="pi pi-file" iconPos="left" (click)="verDatalle()">
+    </button>
+    <button style="width: 125px !important; background-color: #34A835 !important; border: 1px solid #34A835 !important;"
+      pButton class="btn btn-primary btn-sm" label="{{obtenerEtiqueta('btn.excel')}}" icon="pi pi-file-excel"
+      iconPos="left" (click)="exportExcel()">
+    </button>
+  </div>
+  <div class="sub_nav_bar_buttons container" *ngIf="crud.estadoOtro()">
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm" type="submit"
+      label="{{obtenerEtiqueta('btn.cancelar')}}" icon="pi pi-times" iconPos="left" (click)="cancelar()">
+    </button>
+  </div>
+</header>
+<br>
+<div class="contenido" id="copiableContainer" contenteditable="false">
+  <div *ngIf="crud.estadoView()" class="col-12">
+    <div class="col-12" style="padding-right: 0px !important; padding-left: 0px !important;">
+      <p-panel>
+        <p-header>
+          {{obtenerEtiqueta('header.filtros')}}
+        </p-header>
+        <div class="form-row">
+          <div class="col-12 col-md-6 mb-3">
+            <label for="fechaInicio">{{obtenerEtiqueta('filtro.fecha.inicio')}}</label>
+            <p-calendar [(ngModel)]="fechaInicio" (onSelect)="filtrarExtendido()" [monthNavigator]="true"
+              yearRange="1951:2051" [yearNavigator]="true" dateFormat="dd/mm/yy" [minDate]="fechaMinima"
+              [maxDate]="fechaActual" hourFormat="24" [style]="{'width':'100%'}">
+            </p-calendar>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label for="fechaFin">{{obtenerEtiqueta('filtro.fecha.fin')}}</label>
+            <p-calendar [(ngModel)]="fechaFin" (onSelect)="filtrarExtendido()" [monthNavigator]="true"
+              yearRange="1951:2051" [yearNavigator]="true" dateFormat="dd/mm/yy" hourFormat="24" [minDate]="fechaMinima"
+              [maxDate]="fechaActual" [style]="{'width':'100%'}">
+            </p-calendar>
+          </div>
+
+        </div>
+      </p-panel>
+    </div>
+    <br />
+    <p-table #dt [columns]="cols" [value]="page.content" [paginator]="true" [rows]="input.size" [lazy]="true"
+      [loading]="loading" (onLazyLoad)="loadLazy($event)" [totalRecords]="page.totalElements" selectionMode="single"
+      [(selection)]="dto" dataKey="id" [rowsPerPageOptions]="[10,25,50,100]" [contextMenu]="cm">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th class="{{col.class}}" pSortableColumn="{{col.field}}" *ngFor="let col of columns" width={{col.width}}>
+            {{col.header}} <p-sortIcon field="{{col.field}}"></p-sortIcon>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let col of columns" [ngSwitch]="col.field">
+            <input style='width: 100%' *ngIf="col.field != 'usuario'" pInputText type="text"
+              (input)="dt.filter($event.target.value, col.field, 'contains')">
+            <p-dropdown #ddr [style]="{'width':'100%'}" [scrollHeight]="scrollHeight" *ngSwitchCase="'usuario'"
+              [filter]="true" [showClear]="true" [options]="usuariosFilter"
+              (onChange)="dt.filter($event.value, col.field, 'equals'); onChangeClearFilter($event,ddr)"
+              appendTo="body">
+            </p-dropdown>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+          <td *ngFor="let col of columns">
+            <!--<span class="ui-column-title">{{col.header}}</span>-->
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td *ngIf="columns != undefined" [attr.colspan]="columns.length">
+            {{obtenerEtiqueta('tbl.sin.registros')}}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorright" let-state style="margin-left: 0px">
+        Mostrando {{(state.page * state.rows) + 1}} al {{state.rows * (state.page + 1)}} de {{state.totalRecords}}
+      </ng-template>
+    </p-table>
+  </div>
+
+  <p-contextMenu #cm appendTo="body" [model]="items"></p-contextMenu>
+
+  <form *ngIf="crud.estadoOtro()" class="col-12">
+    <p-panel #pnl>
+      <p-header>
+        {{obtenerEtiqueta('crud.header')}}
+      </p-header>
+      <!--
+      <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+        <div class="row">
+          <div class="col-12 col-md-3">
+            {{obtenerEtiqueta('crud.fecha')}}
+          </div>
+          <div class="col-12 col-md-9">
+            {{dto.fecha}}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 col-md-3">
+            {{obtenerEtiqueta('crud.accion')}}
+          </div>
+          <div class="col-12 col-md-9">
+            {{dto.accion}}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 col-md-3">
+            {{obtenerEtiqueta('crud.formulario')}}
+          </div>
+          <div class="col-12 col-md-9">
+            {{dto.formulario}}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 col-md-3">
+            {{obtenerEtiqueta('crud.usuario')}}
+          </div>
+          <div class="col-12 col-md-9">
+            {{dto.usuario}}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 col-md-3">
+            {{obtenerEtiqueta('crud.direccion.ip')}}
+          </div>
+          <div class="col-12 col-md-9">
+            {{dto.direccionIp}}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 col-md-3">
+            {{obtenerEtiqueta('crud.valor.antiguo')}}
+          </div>
+          <div class="col-12 col-md-9">
+            {{dto.valorAnterior}}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 col-md-3">
+            {{obtenerEtiqueta('crud.valor.nuevo')}}
+          </div>
+          <div class="col-12 col-md-9">
+            {{dto.valorNuevo}}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 col-md-3">
+            {{obtenerEtiqueta('crud.log.id')}}
+          </div>
+          <div class="col-12 col-md-9">
+            {{dto.logSistemaId}}
+          </div>
+        </div>
+      </div>
+-->
+
+      <div class="form-row">
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.fecha')}}</div>
+          <div class="col-12">{{dto.fecha}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.accion')}}</div>
+          <div class="col-12">{{dto.accion}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.formulario')}}</div>
+          <div class="col-12">{{dto.formulario}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.usuario')}}</div>
+          <div class="col-12">{{dto.usuario}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.direccion.ip')}}</div>
+          <div class="col-12">{{dto.direccionIp}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.log.id')}}</div>
+          <div class="col-12">{{dto.logSistemaId}}</div>
+        </div>
+
+        <div class="col-12 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.antiguo')}}</div>
+          <div class="col-12">{{dto.valorAnterior}}</div>
+        </div>
+
+        <div class="col-12 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.nuevo')}}</div>
+          <div class="col-12">{{dto.valorNuevo}}</div>
+        </div>
+      </div>
+
+
+    </p-panel>
+  </form>
+
+</div>

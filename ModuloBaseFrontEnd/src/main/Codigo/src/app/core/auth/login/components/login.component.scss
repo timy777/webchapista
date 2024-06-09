@@ -1,0 +1,44 @@
+@import "../../../../../styles/variables";
+
+body {
+  height: 100% !important;
+}
+
+
+.login_general {
+  background: url("../../../../../assets/image/fondo.jpg") no-repeat center center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  position: fixed;
+}
+
+.login_data {
+  padding-left: 15%;
+  padding-right: 15%;
+  // width: 30%;
+  height: 100%;
+}
+
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: $font-family, sans-serif;
+}
+
+
+.boton_personalizado {
+  text-decoration: underline white;
+  background: transparent;
+  border: none;
+  margin-top: 15px;
+  text-align: right;
+  float: right;
+}
+
+.bgTigoBlue {
+  background-color: #00377B !important;
+}

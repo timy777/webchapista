@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" style="height: 100%;">
+
+<head>
+    <!--<meta charset="ISO-8859-1">-->
+    <meta charset="utf-8">
+    <!--<title>Gateway v1.0</title>-->
+    <!--<base href="/GatewayNg/">-->
+    <!--para produccion-->
+    <base href="/">
+    <!--para local-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
+    <meta http-equiv="Cache-Control" content="no-cache, must-understand, no-store, max-age=604800, must-revalidate, private" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'self'; img-src 'self' data:; form-action 'self'; font-src 'self' https:; default-src 'self' http:;">  
+
+    <link rel="icon" type="image/x-icon" href="assets/image/favicon.ico">
+</head>
+
+<body onloadstart="nobackbutton();" style="height: 100%; background-color: rgb(2, 34, 73);">
+    <app-root></app-root>
+
+</body>
+<script type="text/javascript">
+    console.log("abc");
+    function nobackbutton() {
+        window.location.hash = "no-back-button";
+        window.location.hash = "Again-No-back-button" //chrome
+        window.onhashchange = function() {
+            const temp = sessionStorage.getItem('currentUser');
+            console.log("*** abc: ", temp);
+            if (temp) {
+                window.location.hash = "/v1/administracion/dashboard";
+            } else {
+                window.location.hash = "/v1/administracion/login";
+            }
+        }
+        console.log('nobackbutton');
+    }
+</script>
+
+</html>

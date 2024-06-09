@@ -1,0 +1,218 @@
+<header class="etiqueta-scrolling row col-12 ">
+  <div class="col-1"></div>
+  <div class=" navbar-light  custom-bg-primary col-10">
+    <h3 class="text-white text-center">{{obtenerEtiqueta('titulo')}}</h3>
+  </div>
+  <div class="col-1"></div>
+  <div class="sub_nav_bar_buttons custom-bg-primary container" *ngIf="crud.estadoView()">
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm"
+      label="{{obtenerEtiqueta('btn.detalles')}}" icon="pi pi-file" iconPos="left" (click)="visualizar()">
+    </button>
+    <button style="width: 125px !important; background-color: #34A835 !important; border: 1px solid #34A835 !important;"
+      pButton class="btn btn-primary btn-sm" label="{{obtenerEtiqueta('btn.excel')}}" icon="pi pi-file-excel"
+      iconPos="left" (click)="exportExcel()">
+    </button>
+  </div>
+  <div class="sub_nav_bar_buttons custom-bg-primary container" *ngIf="crud.estadoOtro()">
+    <button style="width: 125px !important" pButton class="btn btn-primary btn-sm" type="submit"
+      label="{{obtenerEtiqueta('btn.cancelar')}}" icon="pi pi-times" iconPos="left" (click)="cancelar()">
+    </button>
+  </div>
+</header>
+<br>
+<div class="contenido" id="copiableContainer" contenteditable="false">
+  <div *ngIf="crud.estadoView()" class="col-12">
+    <div class="col-12" style="padding-right: 0px !important; padding-left: 0px !important;">
+      <p-panel>
+        <p-header>
+          {{obtenerEtiqueta('header.filtros')}}
+        </p-header>        
+
+        <div class="form-row">
+          <div class="col-12 col-md-6 mb-3">
+            <label for="fechaInicio">{{obtenerEtiqueta('filtro.fecha.inicio')}}</label>
+            <p-calendar [(ngModel)]="fechaInicio" (onSelect)="filtrarExtendido()" [monthNavigator]="true"
+                yearRange="1951:2051" [yearNavigator]="true" dateFormat="dd/mm/yy" [minDate]="fechaMinima"
+                [maxDate]="fechaActual" hourFormat="24"  [style]="{'width':'100%'}">
+              </p-calendar>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label for="fechaFin">{{obtenerEtiqueta('filtro.fecha.fin')}}</label>
+            <p-calendar [(ngModel)]="fechaFin" (onSelect)="filtrarExtendido()" [monthNavigator]="true"
+                yearRange="1951:2051" [yearNavigator]="true" dateFormat="dd/mm/yy" hourFormat="24"
+                [minDate]="fechaMinima" [maxDate]="fechaActual" [style]="{'width':'100%'}">
+              </p-calendar>
+          </div>
+        </div>
+
+      </p-panel>
+    </div>
+    <br />
+    <div class="p-datatable-wrapper" style="overflow: inherit !important;">
+      <p-table #dt [columns]="cols" [value]="page.content" [paginator]="true" [rows]="input.size" [lazy]="true"
+        [loading]="loading" (onLazyLoad)="loadLazy($event)" [totalRecords]="page.totalElements" selectionMode="single"
+        [(selection)]="dto" dataKey="id" [rowsPerPageOptions]="[10,25,50,100]" [contextMenu]="cm">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th class="{{col.class}}" pSortableColumn="{{col.field}}" *ngFor="let col of columns"  width={{col.width}}>
+              {{col.header}} <p-sortIcon field="{{col.field}}"></p-sortIcon>
+            </th>
+          </tr>
+          <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+              <input style='width: 100%' *ngIf="col.field != 'app' && col.field != 'nivel'" pInputText type="text"
+                (input)="dt.filter($event.target.value, col.field, 'contains')">
+              <p-dropdown [style]="{'width':'100%'}" [scrollHeight]="scrollHeight" *ngSwitchCase="'app'" [filter]="true"
+                [showClear]="true" [options]="aplicacionesFilter"
+                (onChange)="dt.filter($event.value, col.field, 'equals')" appendTo="body">
+              </p-dropdown>
+              <p-dropdown [style]="{'width':'100%'}" [scrollHeight]="scrollHeight" *ngSwitchCase="'nivel'"
+                [filter]="true" [showClear]="true" [options]="nivelesFilter"
+                (onChange)="dt.filter($event.value, col.field, 'equals')" appendTo="body">
+              </p-dropdown>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template style="overflow: inherit !important;" pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+            <td *ngFor="let col of columns">
+              <!--<span class="ui-column-title">{{col.header}}</span>-->
+              {{rowData[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td *ngIf="columns != undefined" [attr.colspan]="columns.length">
+              {{obtenerEtiqueta('tbl.sin.registros')}}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorright" let-state style="margin-left: 0px">
+          Mostrando {{(state.page * state.rows) + 1}} al {{state.rows * (state.page + 1)}} de {{state.totalRecords}}
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <p-contextMenu #cm appendTo="body" [model]="items"></p-contextMenu>
+
+  <form *ngIf="crud.estadoOtro()" class="col-12">
+    <p-panel #pnl>
+      <p-header>
+        {{obtenerEtiqueta('crud.header')}}
+      </p-header>
+
+      <!--
+      <div class="form-group row m-1" style="margin: 10px 0px">
+        <div class="row col-12 mb-2">
+          <div class="col-sm-4 text-primary">
+            {{obtenerEtiqueta('crud.id')}}
+          </div>
+          <div class="col-sm-8">
+            {{dto.id}}
+          </div>
+        </div>
+        <div class="row col-12 mb-2">
+          <div class="col-sm-4 text-primary" >
+            {{obtenerEtiqueta('crud.fecha.registro')}}
+          </div>
+          <div class="col-sm-8">
+            {{dto.fechaRegistro}}
+          </div>
+        </div>
+        <div class="row col-12 mb-2">
+          <div class="col-sm-4">
+            {{obtenerEtiqueta('crud.app')}}
+          </div>
+          <div class="col-sm-8">
+            {{dto.app}}
+          </div>
+        </div>
+        <div class="row col-12 mb-2">
+          <div class="col-md-4">
+            {{obtenerEtiqueta('crud.proceso')}}
+          </div>
+          <div class="col-12 col-md-8">
+            <div style="overflow-x: auto;">
+              <p class="text-sm text-md text-lg">
+                {{dto.proceso}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row col-12 mb-2">
+          <div class="col-sm-4">
+            {{obtenerEtiqueta('crud.detalle')}}
+          </div>
+          <div class="col-12 col-md-8">
+            <div style="overflow-x: auto;">
+              <p class="text-sm text-md text-lg">
+                {{dto.detalle}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row col-12 mb-2">
+          <div class="col-sm-4">
+            {{obtenerEtiqueta('crud.nivel')}}
+          </div>
+          <div class="col-sm-8">
+            {{dto.nivel}}
+          </div>
+        </div>
+        <div class="row col-12 mb-2">
+          <div class="col-sm-4">
+            {{obtenerEtiqueta('crud.trazabilidad')}}
+          </div>
+          <div class="col-sm-8">
+            {{dto.trazabilidad}}
+          </div>
+        </div>
+      </div>
+      -->
+
+      <div class="form-row">
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.id')}}</div>
+          <div class="col-12">{{dto.id}}</div>
+        </div>
+        
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.fecha.registro')}}</div>          
+          <div class="col-12">{{dto.fechaRegistro}}</div>          
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.app')}}</div>
+          <div class="col-12">{{dto.app}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.proceso')}}</div>
+          <div class="col-12">{{dto.proceso}}</div>
+        </div>
+
+        <div class="col-12 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.detalle')}}</div>
+          <div class="col-12">{{dto.detalle}}</div>
+        </div>
+
+
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.nivel')}}</div>
+          <div class="col-12">{{dto.nivel}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <div class="col-12 font-weight-bold">{{obtenerEtiqueta('crud.trazabilidad')}}</div>
+          <div class="col-12">{{dto.trazabilidad}}</div>
+        </div>
+        
+      </div>
+
+    </p-panel>
+  </form>
+
+</div>

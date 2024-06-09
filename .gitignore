@@ -1,0 +1,38 @@
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+*.class
+target/
+package-lock.json
+node_modules
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+.scannerwork
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+
+configuracion.properties
+application.properties
+
+# Ignore all files in the 'logs' subfolder.
+/logs/

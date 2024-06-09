@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg fixed-top">
+  <img src="assets/image/logo.png" class="navbar-brand img-fluid mx-auto d-block" style="height: 50px;">
+  <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+    
+    <!-- <span class="navbar-toggler-icon"></span> -->
+    <i class="fa fa-bars text-muted" aria-hidden="true"></i>
+  </button>
+  <div class="collapse navbar-collapse" style="margin-bottom: -15px;">
+    <ul class="navbar-nav ml-auto">
+
+      <li class="nav-item dropdown" ngbDropdown>
+        <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+          <i class="fa fa-user"></i> {{ nombreUsuario() }} <b class="caret"></b>
+        </a>
+      </li>
+      <li class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link" ngbDropdownToggle (click)="onLoggedout()">
+          <i class="fa fa-fw fa-power-off"></i> {{ 'Salir' }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+

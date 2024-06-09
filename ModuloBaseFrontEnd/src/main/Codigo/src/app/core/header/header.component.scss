@@ -1,0 +1,47 @@
+@import '../../../styles/variables';
+
+:host {
+    .navbar {
+        background-color: $color-secundario;
+
+        .navbar-brand {
+            color: $color-cuaternario;
+        }
+
+        .nav-item>a {
+            color: $color-cuaternario;
+
+            &:hover {
+                color: $color-terciario;
+            }
+        }
+    }
+}
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+
+.item_result:nth-child(odd) {
+    background: #c8e7fa;
+}
+
+.item_result:nth-child(even) {
+    background: #97d2ff;
+}
+
+.item_result:hover {
+    background: rgb(35, 137, 255)
+}

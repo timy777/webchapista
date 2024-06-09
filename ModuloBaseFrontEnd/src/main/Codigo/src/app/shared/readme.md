@@ -1,0 +1,1 @@
+El directorio shared contendrá componentes que se ocupan en toda la aplicación. Puede ser navbar, footers, etc.
